@@ -1,19 +1,22 @@
+#Напишіть функцію, яка приймає рядкові дані та виконує перевірку на їхню відповідність мейлу.
+#Вимоги:
+#-Цифри (0-9).
+#-лише латинські літери у великому (A-Z) та малому (a-z) регістрах.
+#-у тілі мейла допустимі лише символи "_" і "-". Але вони не можуть бути першим символом мейлу.
+#-Символ "-" не може повторюватися.
 import re
 
 
-# Функція для валідації логіну
-def validate_login(login):
-    # Регулярний вираз для перевірки логіну
-    pattern = r'^[A-Za-z0-9]{2,10}$'
+def is_valid_email(email):
+    regex = r"^(?![_-])[A-Za-z0-9._-]+(?<![-])@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
 
-    # Перевірка логіну за допомогою регулярного виразу
-    if re.match(pattern, login):
-        return True
-    else:
-        return False
+    if re.match(regex, email):
+        if "--" not in email.split('@')[0]:
+            return True
+    return False
 
 
-# Приклад використання
-login = "User123"
-is_valid = validate_login(login)
-print(f"The login '{login}' is {'valid' if is_valid else 'invalid'}.")
+test_emails = ["example_email@example.com", "_example@example.com", "example--email@example.com",
+               "example-email@example.com", "example-email@example.io.com"]
+for email in test_emails:
+    print(f"Is '{email}' a valid email? {is_valid_email(email)}")
